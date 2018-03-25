@@ -6,5 +6,32 @@
     background-color: rgb(0, 179, 255);
 }
 body {
-    background-image: url("../images/Giphy.gif");
+    background-color: rgb(0, 37, 92);
+}
+.title-rating {
+    background-color: rgb(0, 179, 255);
+    width: 300px;
+    text-align: center;
+    border: solid;
+    border-width: 1px;
+    border-color: black;
+    overflow: auto;
+    padding:5px;
+
+}
+img {
+    margin: 10px;
+    
+}
+.instructions1 {
+    font-size: 20px;
+}
+.instructions2 {
+    font-size: 20px;
+}
+li {
+    font-size: 20px;
+}
+#download {
+    clear: both;
 }

@@ -1,11 +1,11 @@
-var tvShows = ["orange is the new black", "house of cards", "grey's anatomy", "friends", "jersey shore", "jessica jones", "luke cage", "the defenders", "narcos", "rick and morty", "archer", "the office", "parks and rec", "dexter"];
+var tvShows = ["orange is the new black", "house of cards", "grey's anatomy", "friends", "jersey shore", "jessica jones", "luke cage", "the defenders", "narcos", "the walking dead", "archer", "the office", "parks and rec", "dexter"];
 
 
 function renderButtons() {
     $("#gif-buttons").empty();
     for (var i = 0; i < tvShows.length; i++) {
         var a = $("<button>");
-        a.addClass("btn btn-default");
+        a.addClass("btn btn-default searchTerms");
 
         a.attr("data-name", tvShows[i]);
         a.text(tvShows[i]);
@@ -27,7 +27,7 @@ $("#add-show").on("click", function (event) {
 renderButtons();
 
 
-$("body").on("click", ".btn", function () {
+$("body").on("click", ".searchTerms", function () {
     var search = $(this).attr("data-name");
     console.log($(this).attr("data-name"));
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=S5EtC2wnRVlu7AA596sPIpZU0NffHR8w&limit=10";
@@ -37,14 +37,14 @@ $("body").on("click", ".btn", function () {
         method: "GET"
     }).then(function (response) {
         console.log(response)
-        
+
         for (var j = 0; j < response.data.length; j++) {
             var gifDiv = $("<div>");
             var animateUrl = response.data[j].images.original.url;
             var stillUrl = response.data[j].images.original_still.url;
             var gifRating = response.data[j].rating;
             console.log(stillUrl);
-
+            var gifTitle = response.data[j].title;
             var gifHolder = $("<img>");
             gifHolder.attr("src", stillUrl);
             gifHolder.attr("alt", "giphy");
@@ -52,7 +52,8 @@ $("body").on("click", ".btn", function () {
             gifHolder.attr("data-still", stillUrl);
             gifHolder.attr("data-state", "still");
             gifDiv.prepend(gifHolder);
-            gifDiv.prepend("<div> Rating: " + gifRating + "</div>");
+            gifDiv.prepend("<div class='title-rating panel panel-default'> <strong>Title: </strong>"+gifTitle+"  <strong>Rating: </strong>" + gifRating + "</div>");
+            //gifDiv.append("<button class='btn btn-default download' id='download'><a href=" + animateUrl + " target='blank' download>Download GIF</button");
             $("#gifs-go-here").prepend(gifDiv);
         }
 
@@ -69,9 +70,9 @@ $("body").on("click", ".btn", function () {
             }
             then();
         })
-        
-        })
-    });
+
+    })
+});
 
 
 
