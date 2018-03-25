@@ -6,7 +6,7 @@ function renderButtons() {
     for (var i = 0; i < tvShows.length; i++) {
         var a = $("<button>");
         a.addClass("btn btn-default");
-        
+
         a.attr("data-name", tvShows[i]);
         a.text(tvShows[i]);
         $("#gif-buttons").append(a);
@@ -19,7 +19,7 @@ $("#add-show").on("click", function (event) {
     var newShow = $("#show-input").val();
     tvShows.push(newShow);
 
-    
+
     renderButtons();
 
 });
@@ -27,29 +27,52 @@ $("#add-show").on("click", function (event) {
 renderButtons();
 
 
-$(".btn").on("click", function() {
+$("body").on("click", ".btn", function () {
     var search = $(this).attr("data-name");
     console.log($(this).attr("data-name"));
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=S5EtC2wnRVlu7AA596sPIpZU0NffHR8w&limit=10";
-    
-$.ajax({
-    url: queryURL,
-    method: "GET"
-}).then(function(response) {
-    console.log(response)
-    
-    
-     for (var j = 0; j < response.data.length; j++) {
-        var gifDiv = $("<div>");
-        var imageUrl = response.data[j].images.original.url;
-        console.log(imageUrl);     
-      var gifHolder = $("<img>");     
-      gifHolder.attr("src", imageUrl);
-      gifHolder.attr("alt", "giphy");
-      gifDiv.prepend(gifHolder)
-      $("#gifs-go-here").prepend(gifDiv);
-    }
-});
-});
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response)
+        
+        for (var j = 0; j < response.data.length; j++) {
+            var gifDiv = $("<div>");
+            var animateUrl = response.data[j].images.original.url;
+            var stillUrl = response.data[j].images.original_still.url;
+            var gifRating = response.data[j].rating;
+            console.log(stillUrl);
+
+            var gifHolder = $("<img>");
+            gifHolder.attr("src", stillUrl);
+            gifHolder.attr("alt", "giphy");
+            gifHolder.attr("data-animate", animateUrl);
+            gifHolder.attr("data-still", stillUrl);
+            gifHolder.attr("data-state", "still");
+            gifDiv.prepend(gifHolder);
+            gifDiv.prepend("<div> Rating: " + gifRating + "</div>");
+            $("#gifs-go-here").prepend(gifDiv);
+        }
+
+        $("body").on("click", "img", function () {
+            console.log($(this).attr("data-state"));
+            var state = $(this).attr("data-state");
+            if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+            }
+            else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+            }
+            then();
+        })
+        
+        })
+    });
+
+
 
 
