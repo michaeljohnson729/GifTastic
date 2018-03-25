@@ -1,0 +1,10 @@
+.btn {
+    margin:10px 10px 0px 0px;
+    background-color: rgb(0, 179, 255);
+}
+#add-show {
+    background-color: rgb(0, 179, 255);
+}
+body {
+    background-image: url("../images/Giphy.gif");
+}
